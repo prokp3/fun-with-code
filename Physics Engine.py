@@ -10,7 +10,7 @@ FPS = 60
 
 # Particle class
 class Particle:
-    def __init__(self, x, y, vx, vy, e, m, radius=20, color=(255,255,255), ):
+    def __init__(self, x, y, vx, vy, e, m, radius=10, color=(255,255,255), ):
         self.x = x
         self.y = y
         self.vx = vx
@@ -52,6 +52,12 @@ class Particle:
             self.vy = -self.vy * self.e
             self.y = HEIGHT - self.radius
 
+def collision(p1, p2):
+    distance_between = ((p2.y-p1.y)**2 + (p2.x-p1.x)**2)**0.5
+    if distance_between <= p1.radius+p2.radius:
+        print("Colliding")
+
+
 def plot_data(particle):
     # calculate KE
     ke_x = [0.5*particle.mass * vx**2 for vx in particle.history_vx]
@@ -85,8 +91,8 @@ clock = pygame.time.Clock()
 frame = 0
 
 # Two particles
-p1 = Particle(200, 300, 2, 1, 0.5, 10, color=(255, 100, 100))
-#p2 = Particle(600, 300, -2, 1, 1, color=(100, 100, 255))
+p1 = Particle(200, 300, 2, 1, 1, 10, color=(255, 100, 100))
+p2 = Particle(600, 300, -2, 1, 1, 10, color=(100, 100, 255))
 
 
 # Game loop
@@ -101,13 +107,18 @@ while running:
     current_time = pygame.time.get_ticks()
     p1.update(current_time)
     p1.check_walls()
-    #p2.update()
-    #p2.check_walls()
+    p2.update(current_time)
+    p2.check_walls()
+    collision(p1, p2)
     p1.draw(screen)
+    p2.draw(screen)
     if frame%30 == 0:
-        plot_data(p1)
+        #plot_data(p1)
+        #plot_data(p2)
+        pass
     frame += 1    
-    #p2.draw(screen)
+    
+
     
 
     pygame.display.flip()
