@@ -56,6 +56,8 @@ def collision(p1, p2):
     distance_between = ((p2.y-p1.y)**2 + (p2.x-p1.x)**2)**0.5
     if distance_between <= p1.radius+p2.radius:
         print("Colliding")
+        
+
 
 
 def plot_data(particle):
@@ -113,7 +115,7 @@ while running:
     p1.draw(screen)
     p2.draw(screen)
     if frame%30 == 0:
-        #plot_data(p1)
+        plot_data(p1)
         #plot_data(p2)
         pass
     frame += 1    
